@@ -42,11 +42,26 @@ Therefore, sum = 495 + 491 + 40 = 1026.
  * @return {number}
  */
 var sumNumbers = function (root) {
-  function traverse(node, num) {
-    if (!node) return null;
-    num += node.val;
-    if (!node.left && !node.right) return +num;
-    return traverse(node.left, num) + traverse(node.right, num);
+  let res = [];
+
+  function recurse(root, currArr) {
+    if (root === null) return 0;
+
+    currArr.push(root.val);
+
+    if (!root.left && !root.right) {
+      let newNum = Number(currArr.join(""));
+      res.push(newNum);
+    }
+    recurse(root.left, currArr);
+    recurse(root.right, currArr);
+    currArr.pop();
   }
-  return traverse(root, "");
+  recurse(root, []);
+
+  let nums = 0;
+  for (let i = 0; i < res.length; i++) {
+    nums += res[i];
+  }
+  return nums;
 };
